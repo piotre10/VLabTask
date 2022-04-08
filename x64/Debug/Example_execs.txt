@@ -1,0 +1,13 @@
+
+join testfiles/test1.csv testfiles/test2.csv a [in/lo/ro]
+should perform join normally on testfiles
+
+
+join testfiles/test1.csv testfiles/test2.csv c in
+should result in "Index error while joining csv-s" --> col c does not exist in test2.csv
+
+join testfiles/test1.csv testfiles/test3.csv a in
+should result in "Incompatible sizes while reading file" --> some fields are missing in test3.csv
+
+join testfiles/test1.csv testfiles/test5.csv a in
+should result in "File error occured while reading file" --> test5.csv does not exist

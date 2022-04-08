@@ -15,7 +15,7 @@ std::string DfException::GetReason()
 	case ERR_CANT_MOVE_HEADER:
 		return "Cannot move header of dataframe";
 	case ERR_FILE:
-		return "Trouble with file";
+		return "File error";
 	default:
 		return "Undefined error";
 	}
