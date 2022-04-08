@@ -2,10 +2,31 @@
 //
 
 #include <iostream>
+#include <string>
 
-int main()
+int main(int argc, char* argv[])
 {
-    std::cout << "Hello World!\n";
+	std::string file1, file2, colname;
+	int jointype = -1; // 1 - innerjoin 2 - left outer join  3 - right outer
+
+	switch (argc)
+	{
+	case 3: {
+		file1 = argv[1];
+		file2 = argv[2];
+		colname = argv[3];
+		jointype = 1;
+	}
+	case 4: {
+		file1 = argv[1];
+		file2 = argv[2];
+		colname = argv[3];
+
+	}
+	default: std::cerr << "Usage: join file1 file2 colname [jointype]"; break;
+	}
+
+	return 0;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

@@ -1,5 +1,6 @@
 #include "DfItem.h"
 #include "DfException.h"
+#include <sstream>
 
 DfItem::DfItem(int NumFields)
 {
@@ -20,6 +21,41 @@ DfItem::DfItem(std::vector<std::string> FieldsVec)
 DfItem::~DfItem()
 {
 	delete[] fields;
+}
+
+std::istream& operator >> (std::istream& in, DfItem dfit)
+{
+	std::string buff,temp;
+	std::vector<std::string> fields;
+
+	getline(in, buff);
+
+	std::stringstream ss;
+	ss << buff;
+
+	while (getline(ss, temp, ','))
+	{
+		fields.push_back(temp);
+	}
+	ss >> temp;
+	fields.push_back(temp);
+
+	dfit = DfItem(fields);
+
+	return in;
+}
+	
+std::ostream& operator << (std::ostream& out, DfItem dfit)
+{
+	for (int i = 0; i < dfit.GetSize() - 1; i++)
+	{
+		if (dfit[i] != NULL_FIELD)
+			out << dfit[i];
+		out << ',';
+	}
+	if (dfit[dfit.GetSize() - 1] != NULL_FIELD)
+		out << dfit[dfit.GetSize() - 1];
+	return out;
 }
 
 bool operator == (const DfItem& it1, const DfItem& it2)

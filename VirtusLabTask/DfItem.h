@@ -3,6 +3,8 @@
 #include <vector>
 #include <string>
 
+#define NULL_FIELD "NULL"
+
 class DfItem
 {
 private:
@@ -10,10 +12,12 @@ private:
 	std::string* fields;
 
 public:
-	DfItem(int NumFields);
+	DfItem(int NumFields = 1);
 	DfItem(std::vector<std::string> FieldsVec);
 	~DfItem();
 
+	friend std::istream& operator >> (std::istream& in, DfItem dfit);
+	friend std::ostream& operator << (std::ostream & out, DfItem dfit);
 	friend bool operator == (const DfItem& it1, const DfItem& it2);
 	friend bool operator != (const DfItem& it1, const DfItem& it2);
 	const std::string& operator [] (int index) const;
