@@ -1,9 +1,0 @@
-﻿  DataFrame.cpp
-D:\repos\VS C++\VirtusLabTask\VirtusLabTask\DataFrame.cpp(81,25): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-  DfException.cpp
-  DfItem.cpp
-D:\repos\VS C++\VirtusLabTask\VirtusLabTask\DfItem.cpp(14,29): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-  util.cpp
-  VirtusLabTask.cpp
-  Generating Code...
-  VirtusLabTask.vcxproj -> D:\repos\VS C++\VirtusLabTask\x64\Debug\join.exe

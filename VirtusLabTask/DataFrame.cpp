@@ -3,7 +3,11 @@
 
 DataFrame::DataFrame()
 {
-
+	std::vector<std::string> vec;
+	vec.push_back(NULL_FIELD);
+	records.push_back(DfItem(vec));
+	DfItem head(vec);
+	(*this) = DataFrame(head);
 }
 DataFrame::DataFrame(DfItem header)
 {
@@ -13,8 +17,21 @@ DataFrame::DataFrame(std::vector<std::string> header)
 {
 	records.push_back(DfItem(header));
 }
+DataFrame::DataFrame(const DataFrame& df)
+{
+	*this = df;
+}
+DataFrame::~DataFrame()
+{
 
-std::istream& operator >> (std::istream& in, DataFrame df)
+}
+
+DataFrame& DataFrame::operator = (const DataFrame& df)
+{
+	records = df.records;
+	return *this;
+}
+std::istream& operator >> (std::istream& in, DataFrame& df)
 {
 	DfItem temp;
 	in >> temp;
@@ -23,10 +40,12 @@ std::istream& operator >> (std::istream& in, DataFrame df)
 		df.AddRecord(temp);
 	return in;
 }
-std::ostream& operator << (std::ostream& out, DataFrame df)
+std::ostream& operator << (std::ostream& out, DataFrame& df)
 {
+	if (df.GetSize() <= 0)
+		return out;
 	for (auto record : df.records)
-		out << record;
+		out << record << std::endl;
 	return out;
 }
 
@@ -126,4 +145,16 @@ void DataFrame::StripNulls(int ColId)
 	for (auto pRec = records.begin(); pRec < records.end(); pRec++)
 		if ((*pRec)[ColId] == NULL_FIELD)
 			records.erase(pRec);
+}
+
+void DataFrame::RemoveColumn(int ColId)
+{
+	for (auto record : records)
+	{
+		record.RemoveField(ColId);
+	}
+}
+int DataFrame::GetSize()
+{
+	return records.size();
 }

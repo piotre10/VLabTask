@@ -7,13 +7,17 @@ class DataFrame
 {
 private:
 	std::vector<DfItem> records; // first record consists of labels/titles
+
 public:
 	DataFrame();
 	DataFrame(DfItem header);
 	DataFrame(std::vector<std::string> header);
+	DataFrame(const DataFrame& df);
+	~DataFrame();
 
-	friend std::istream& operator >> (std::istream& in, DataFrame df);
-	friend std::ostream& operator << (std::ostream& out, DataFrame df);
+	DataFrame& operator = (const DataFrame& df);
+	friend std::istream& operator >> (std::istream& in, DataFrame& df);
+	friend std::ostream& operator << (std::ostream& out, DataFrame& df);
 	const DfItem& operator [] (int index) const;
 	DfItem& operator [] (int index);
 
@@ -26,5 +30,7 @@ public:
 	void SwapColumns(int id1, int id2);
 	void SwapRecords(int id1, int id2);
 	void StripNulls(int ColId);
+	void RemoveColumn(int ColId);
+	int GetSize();
 };
 
