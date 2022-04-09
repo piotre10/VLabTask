@@ -5,18 +5,8 @@
 
 DfItem::DfItem(int NumFields)
 {
-	for (int i = 0; i < NumFields; i++)
-	{
+	for (int i = 0; i < NumFields; i++) 
 		fields.push_back(NULL_FIELD);
-	}
-}
-DfItem::DfItem(std::vector<std::string> FieldsVec)
-{
-	fields = FieldsVec;
-}
-DfItem::DfItem(const DfItem& it)
-{
-	(*this) = it;
 }
 
 DfItem& DfItem::operator = (const DfItem& it)
@@ -44,7 +34,7 @@ std::istream& operator >> (std::istream& in, DfItem& dfit)
 	return in;
 }
 	
-std::ostream& operator << (std::ostream& out, DfItem& dfit)
+std::ostream& operator << (std::ostream& out, const DfItem& dfit)
 {
 
 	for (auto field =dfit.fields.begin(); field < dfit.fields.end() - 1; field++)
@@ -80,10 +70,6 @@ bool operator == (const DfItem& it1, const DfItem& it2)
 
 	return 0;
 }
-bool operator != (const DfItem& it1, const DfItem& it2)
-{
-	return !(it1 == it2);
-}
 
 const std::string& DfItem::operator [] (int index) const
 {
@@ -92,6 +78,7 @@ const std::string& DfItem::operator [] (int index) const
 
 	return fields[index];
 }
+
 std::string& DfItem::operator [] (int index)
 {
 	if (index < 0 || index >= GetSize())
@@ -100,36 +87,11 @@ std::string& DfItem::operator [] (int index)
 	return fields[index];
 }
 
-int DfItem::FindValue(std::string value)
+int DfItem::FindValue(std::string value) const
 {
 	for (int i = 0; i < GetSize(); i++)
 		if ((*this)[i] == value)
 			return i;
 
 	return -1;
-}
-
-void DfItem::SwapFields(int id1, int id2)
-{
-	std::string temp = (*this)[id1];
-	(*this)[id1] = (*this)[id2];
-	(*this)[id2] = temp;
-}
-
-std::vector<std::string> DfItem::GetFields() const
-{
-	return fields;
-}
-void DfItem::RemoveField(int index)
-{
-	fields.erase(std::next(fields.begin(), index));
-}
-void DfItem::Clear()
-{
-	while (GetSize() > 0)
-		RemoveField();
-}
-void DfItem::AddField(std::string val) 
-{
-	fields.push_back(val);
 }

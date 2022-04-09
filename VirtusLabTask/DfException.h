@@ -17,6 +17,5 @@ public:
 	DfException(int errId = ERR_UNDEF) { ExceptionID = errId; };
 
 	std::string GetReason();
-	void PrintReason() { std::cout << "Error: " << GetReason() << std::endl; };
 };
 

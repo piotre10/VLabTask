@@ -4,7 +4,7 @@
 #include "DfException.h"
 
 DataFrame* ReadFromCsv(std::string FilePath);
-void WriteToCsv(std::string FilePath, DataFrame df);
+void WriteToCsv(std::string FilePath,const DataFrame df);
 
 DataFrame InnerJoin(DataFrame df1, DataFrame df2, std::string ColName);
 DataFrame LeftOuterJoin(DataFrame df1, DataFrame df2, std::string ColName);

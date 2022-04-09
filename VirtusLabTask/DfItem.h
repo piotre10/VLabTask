@@ -14,25 +14,25 @@ private:
 
 public:
 	DfItem(int NumFields = 1);
-	DfItem(std::vector<std::string> FieldsVec);
-	DfItem(const DfItem&  it);
-	~DfItem() {};
+	DfItem(std::vector<std::string> FieldsVec){ fields = FieldsVec; };
+	DfItem(const DfItem&  it){ (*this) = it; };
+	virtual ~DfItem() {};
 
 	DfItem& operator = (const DfItem& it);
 	friend std::istream& operator >> (std::istream& in, DfItem& dfit);
-	friend std::ostream& operator << (std::ostream & out, DfItem& dfit);
-	friend bool operator == (const DfItem& it1, const DfItem& it2);
-	friend bool operator != (const DfItem& it1, const DfItem& it2);
+	friend std::ostream& operator << (std::ostream & out, const DfItem& dfit);
 	friend DfItem operator + (const DfItem& it1, const DfItem& it2);
+	friend bool operator == (const DfItem& it1, const DfItem& it2);
+	friend bool operator != (const DfItem& it1, const DfItem& it2) { return !(it1 == it2); };
 	const std::string& operator [] (int index) const;
 	std::string& operator [] (int index);
 
-	int GetSize() const{ return fields.size(); };
-	int FindValue(std::string value);
-	void SwapFields(int id1, int id2);
-	void RemoveField(int index=0);
-	void Clear();
-	void AddField(std::string val);
-	std::vector<std::string> GetFields() const;
+	int GetSize() const { return (int)fields.size(); };
+	int FindValue(std::string value) const;
+	void SwapFields(int id1, int id2){ std::swap((*this)[id1], (*this)[id2]); };
+	void RemoveField(int index = 0) { fields.erase(std::next(fields.begin(), index)); };
+	void Clear() { while (GetSize() > 0) RemoveField(); };
+	void AddField(std::string val){ fields.push_back(val); };
+	std::vector<std::string> GetFields() const { return fields; };
 };
 

@@ -3,27 +3,8 @@
 
 DataFrame::DataFrame()
 {
-	std::vector<std::string> vec;
-	vec.push_back(NULL_FIELD);
-	records.push_back(DfItem(vec));
-	DfItem head(vec);
+	DfItem head;
 	(*this) = DataFrame(head);
-}
-DataFrame::DataFrame(DfItem header)
-{
-	records.push_back(header);
-}
-DataFrame::DataFrame(std::vector<std::string> header)
-{
-	records.push_back(DfItem(header));
-}
-DataFrame::DataFrame(const DataFrame& df)
-{
-	*this = df;
-}
-DataFrame::~DataFrame()
-{
-
 }
 
 DataFrame& DataFrame::operator = (const DataFrame& df)
@@ -40,7 +21,7 @@ std::istream& operator >> (std::istream& in, DataFrame& df)
 		df.AddRecord(temp);
 	return in;
 }
-std::ostream& operator << (std::ostream& out, DataFrame& df)
+std::ostream& operator << (std::ostream& out, const DataFrame& df)
 {
 	if (df.GetSize() <= 0)
 		return out;
@@ -51,14 +32,14 @@ std::ostream& operator << (std::ostream& out, DataFrame& df)
 
 const DfItem& DataFrame::operator [] (int index) const
 {
-	if (index >= 0 && index < records.size())
+	if (index >= 0 && index < GetSize())
 		return  records[index];
 
 	throw DfException(ERR_INVALID_INDEX);
 }
 DfItem& DataFrame::operator [] (int index)
 {
-	if (index >= 0 && index < records.size())
+	if (index >= 0 && index < GetSize())
 		return  records[index];
 
 	throw DfException(ERR_INVALID_INDEX);
@@ -74,30 +55,28 @@ void DataFrame::AddRecord(DfItem record)
 
 DfItem DataFrame::PopRecord(int index)
 {
-	if (index > 0 && index < records.size())
+	if (index > 0 && index < GetSize())
 		return  (*this)[index];
 
 	throw DfException(ERR_INVALID_INDEX);
 }
-int DataFrame::FindRecord(DfItem recordtofind)
+int DataFrame::FindRecord(DfItem recordtofind) const
 {
 	int i = 0;
 	for (const auto& rec : records)
 	{
-		if (rec == recordtofind)
-			return i;
-
+		if (rec == recordtofind) return i;
 		i++;
 	}
 	return -1;
-
 }
+
 void DataFrame::SortByColumn(int ColId, int l, int p)
 {
 	if (l == -1)
 		l = 1;
 	if (p == -1)
-		p = records.size() - 1;
+		p = GetSize() - 1;
 
 	int i = l;
 	int j = p;
@@ -117,14 +96,7 @@ void DataFrame::SortByColumn(int ColId, int l, int p)
 	if (l < j) SortByColumn(ColId, l, j);
 	if (i < p) SortByColumn(ColId, i, p);
 }
-void DataFrame::SortByColumn(std::string ColName)
-{
-	SortByColumn(FindColId(ColName));
-}
-int DataFrame::FindColId(std::string ColName)
-{
-	return (*this)[0].FindValue(ColName);
-}
+
 void DataFrame::SwapColumns(int id1, int id2)
 {
 	for (auto record : records)
@@ -134,10 +106,8 @@ void DataFrame::SwapRecords(int id1, int id2)
 {
 	if (id1 == 0 || id2 == 0)
 		throw DfException(ERR_CANT_MOVE_HEADER);
-	DfItem temp = (*this)[id1];
-	(*this)[id1] = (*this)[id2];
-	(*this)[id2] = temp;
 
+	std::swap((*this)[id1], (*this)[id2]);
 }
 
 void DataFrame::StripNulls(int ColId)
@@ -147,14 +117,3 @@ void DataFrame::StripNulls(int ColId)
 			records.erase(pRec);
 }
 
-void DataFrame::RemoveColumn(int ColId)
-{
-	for (auto record : records)
-	{
-		record.RemoveField(ColId);
-	}
-}
-int DataFrame::GetSize()
-{
-	return records.size();
-}

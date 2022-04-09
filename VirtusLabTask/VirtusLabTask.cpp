@@ -11,10 +11,6 @@ int main(int argc, char* argv[])
 
 	switch (argc)
 	{
-	case 1: {
-		std::cout << "Welcome in Debug mode" << std::endl;
-		return 0;
-	}
 	case 4: {
 		file1 = argv[1];
 		file2 = argv[2];

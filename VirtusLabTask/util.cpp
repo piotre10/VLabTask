@@ -47,16 +47,16 @@ DataFrame InnerJoin(DataFrame df1, DataFrame df2, std::string ColName)
 			j++;
 		else
 		{
-			int temp = j;
+			int itemp = j;
 			while (j < df2.GetSize() && df1[i][ColId1] == df2[j][ColId2])
 			{
-				DfItem temp = df2[j];
+				temp = df2[j];
 				temp.RemoveField(ColId2);
 				record = df1[i] + temp;
 				res.AddRecord(record);
 				j++;
 			}
-			j = temp;
+			j = itemp;
 			i++;
 		}
 		
@@ -93,25 +93,23 @@ DataFrame LeftOuterJoin(DataFrame df1, DataFrame df2, std::string ColName)
 			j++;
 		else
 		{
-			int temp = j;
+			int itemp = j;
 			while (j < df2.GetSize() && df1[i][ColId1] == df2[j][ColId2])
 			{
-				DfItem temp = df2[j];
+				temp = df2[j];
 				temp.RemoveField(ColId2);
 				record = df1[i] + temp;
 				res.AddRecord(record);
 				j++;
 			}
-			j = temp;
+			j = itemp;
 			i++;
 		}
 
 	}
-	while (i < df1.GetSize())
-	{
+	for (; i < df1.GetSize(); i++)
 		res.AddRecord(df1[i] + empty_end);
-		i++;
-	}
+
 
 	return res;
 }
@@ -122,8 +120,7 @@ DataFrame RightOuterJoin(DataFrame df1, DataFrame df2, std::string ColName)
 
 std::string StripQuotes(std::string str)
 {
-	{
-		str.erase(remove(str.begin(), str.end(), '"'), str.end());
-		return str;
-	}
+	str.erase(remove(str.begin(), str.end(), '"'), str.end());
+	return str;
+
 }
