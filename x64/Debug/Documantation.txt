@@ -1,0 +1,19 @@
+Usage:
+
+join filepath1 filepath2 colname [in | lo | ro]
+
+---------------------------------------------------
+
+Program joins to files with specified jointype, default being inner-join
+
+in [inner]- inner join
+lo [left-outer]- left outer join
+ro [right-outer]- right outer join
+
+Common errors:
+
+File error - error occured while opening/operating on file check file path
+
+Index error - if occured joining csv-s probably means that specified column does not exist in one of files, check if colname is same in both files
+
+Incompatible sizes - if occured during file reading probably means that one or both of csv-s has non rectangular "table" (some fields or more precisely commas are missing) 

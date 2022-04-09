@@ -10,7 +10,13 @@ std::string DfException::GetReason()
 		return "Invalid Index";
 	case ERR_ALLOCATION:
 		return "Allocation error";
+	case ERR_INCOMPATIBLE_SIZE:
+		return "Incompatible size";
+	case ERR_CANT_MOVE_HEADER:
+		return "Cannot move header of dataframe";
+	case ERR_FILE:
+		return "File error";
 	default:
-		return "Undefined error occured";
+		return "Undefined error";
 	}
 }
